@@ -17,7 +17,6 @@ let currentJokeIndex = 0;
 let shuffledImages = [];
 let currentImageIndex = 0;
 
-// shuffle function
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -26,7 +25,7 @@ function shuffle(array) {
   return array;
 }
 
-// initialize shuffled arrays
+
 shuffledJokes = shuffle([...jokes]);
 shuffledImages = shuffle([...images]);
 
@@ -35,47 +34,39 @@ function generateJoke() {
   const jamun = document.getElementById("jamun");
   const btn = document.getElementById("jokeBtn");
 
-  // bubble pop effect
   bubble.classList.remove("pop");
-  void bubble.offsetWidth; // reflow to restart animation
+  void bubble.offsetWidth; 
   bubble.classList.add("pop");
 
   bubble.style.opacity = 0;
 
   setTimeout(() => {
-    // get next joke
     const joke = shuffledJokes[currentJokeIndex];
     bubble.innerText = joke;
     bubble.style.opacity = 1;
 
-    // advance joke index and reshuffle if needed
     currentJokeIndex++;
     if (currentJokeIndex >= shuffledJokes.length) {
       shuffledJokes = shuffle([...jokes]);
       currentJokeIndex = 0;
     }
 
-    // get next jamun image
     const imgSrc = shuffledImages[currentImageIndex];
     jamun.src = imgSrc;
 
-    // advance image index and reshuffle if needed
     currentImageIndex++;
     if (currentImageIndex >= shuffledImages.length) {
       shuffledImages = shuffle([...images]);
       currentImageIndex = 0;
     }
 
-    // jamun wiggle
     jamun.classList.add("wiggle");
     setTimeout(() => jamun.classList.remove("wiggle"), 400);
 
-    // change button text after first click
     if (btn.innerText !== "Another one!") {
       btn.innerText = "Another one!";
     }
   }, 200);
 }
 
-// attach to button click
 document.getElementById("jokeBtn").addEventListener("click", generateJoke);
